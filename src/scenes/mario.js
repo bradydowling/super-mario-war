@@ -4,7 +4,7 @@ import Phaser from 'phaser/src/phaser.js';
 
 export default class MarioGame extends Phaser.Scene {
   constructor() {
-    super({ key: 'Game' });
+    super({ key: 'Mario' });
 
     this.map;
     this.layer;
@@ -20,17 +20,16 @@ export default class MarioGame extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemap(
+    this.load.tilemapTiledJSON(
       'objects',
-      'assets/map1-1.json',
-      null,
-      Phaser.Tilemap.TILED_JSON
+      'assets/map1-1.json'
     );
-    this.load.image('tiles', 'assets/items2.png');
+    this.load.image('tiles', '../assets/items2.png');
     this.load.spritesheet('mario', 'assets/marioSmall.png', 34, 34, 7);
   }
 
   create() {
+    this.scene.start('Mario');
     this.physics.startSystem(Phaser.Physics.ARCADE);
     this.stage.backgroundColor = '#5C94FC';
 
