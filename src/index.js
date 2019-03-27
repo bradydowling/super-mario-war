@@ -1,13 +1,14 @@
-import './index.css';
-import './font-loader';
+import "./index.css";
+import "./font-loader";
 
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
-import LightraysPlugin from '../src/plugins/lightrays/index.js';
-import constants from './config/constants';
-import CustomPipeline from './rendering-pipelines/CustomPipeline';
-import GameScene from './scenes/game';
-import StartScene from './scenes/start';
+import LightraysPlugin from "../src/plugins/lightrays/index.js";
+import constants from "./config/constants";
+import CustomPipeline from "./rendering-pipelines/CustomPipeline";
+import MarioScene from "./scenes/mario";
+import GameScene from "./scenes/game";
+import StartScene from "./scenes/start";
 
 window.Phaser = Phaser;
 
@@ -18,28 +19,28 @@ const config = {
   plugins: {
     scene: [
       {
-        key: 'LightraysPlugin',
+        key: "LightraysPlugin",
         plugin: LightraysPlugin,
-        mapping: 'lightrays'
+        mapping: "lightrays"
       }
     ]
   },
   physics: {
-    default: 'arcade',
+    default: "arcade",
     arcade: {
       gravity: { y: 400 },
       debug: false
     }
   },
   scene: [
-    //StartScene,
-    GameScene
+    MarioScene
+    //, StartScene, GameScene
   ],
   pixelArt: true,
   antialias: false,
   callbacks: {
     postBoot: game => {
-      game.renderer.addPipeline('Custom', new CustomPipeline(game));
+      game.renderer.addPipeline("Custom", new CustomPipeline(game));
     }
   }
 };

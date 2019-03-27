@@ -29,3 +29,5 @@ higherVolume/
 dist/
 build/
 coverage/
+
+.history/

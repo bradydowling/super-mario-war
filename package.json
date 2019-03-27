@@ -1,9 +1,9 @@
 {
-    "name": "create-phaser-app",
-    "version": "0.0.16",
+    "name": "super-mario-war",
+    "version": "0.0.1",
     "description": "A boiler plate to start your phaser app with webpack4, babel7+ and Phaser 3",
-    "author": "Jesse Harlin",
-    "homepage": "https://github.com/simiancraft/create-phaser-app",
+    "author": "Brady Dowling",
+    "homepage": "https://github.com/bradydowling/super-mario-war",
     "scripts": {
         "start": "webpack-dev-server --mode development --env.development",
         "build": "webpack --mode production --env.production",
