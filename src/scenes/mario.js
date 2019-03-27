@@ -20,10 +20,7 @@ export default class MarioGame extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON(
-      'objects',
-      'assets/map1-1.json'
-    );
+    this.load.tilemapTiledJSON('objects', 'assets/map1-1.json');
     this.load.image('tiles', '../assets/items2.png');
     this.load.spritesheet('mario', 'assets/marioSmall.png', 34, 34, 7);
   }
