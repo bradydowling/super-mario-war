@@ -27,21 +27,26 @@ export default class MarioGame extends Phaser.Scene {
 
   create() {
     this.scene.start('Mario');
-    this.physics.startSystem(Phaser.Physics.ARCADE);
-    this.stage.backgroundColor = '#5C94FC';
+    // this.physics.startSystem(Phaser.Physics.ARCADE);
+    // this.stage.backgroundColor = '#5C94FC';
 
-    this.map = this.add.tilemap('objects');
-    this.map.addTilesetImage('items', 'tiles');
-    this.layer = this.map.createLayer('Capa de Patrones 1');
+    this.map = this.make.tilemap({ key: 'objects' });
+    const tiles = this.map.addTilesetImage('items', 'tiles');
+    this.layer = this.map.createStaticLayer('Capa de Patrones 1', tiles);
+    // this.mapLayerGround = this.map.createStaticLayer('moss-rock', tiles, 0, 0);
+
     this.layer.resizeWorld();
     this.layer.wrap = true;
-    this.map.setCollisionBetween(14, 16);
-    this.map.setCollisionBetween(21, 22);
-    this.map.setCollisionBetween(27, 28);
-    this.map.setCollisionByIndex(10);
-    this.map.setCollisionByIndex(13);
-    this.map.setCollisionByIndex(17);
-    this.map.setCollisionByIndex(40);
+
+    this.layer.setCollisionBetween(14, 16);
+    this.layer.setCollisionBetween(21, 22);
+    this.layer.setCollisionBetween(27, 28);
+    this.layer.setCollisionByIndex(10);
+    this.layer.setCollisionByIndex(13);
+    this.layer.setCollisionByIndex(17);
+    this.layer.setCollisionByIndex(40);
+
+    this.physics.add.collider(this.mario, this.layer);
 
     //this.physics.p2.convertTilemap(map, this.layer);
     //this.physics.p2.gravity.y = 300;
