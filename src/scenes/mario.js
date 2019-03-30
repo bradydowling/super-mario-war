@@ -1,6 +1,9 @@
 import { HEIGHT, SCALE, WIDTH } from '../config/constants';
 
 import Phaser from 'phaser/src/phaser.js';
+import levelMap from '../assets/map1-1.json';
+import tileItems from '../assets/items2.png';
+import marioSmall from '../assets/marioSmall.png';
 
 export default class MarioGame extends Phaser.Scene {
   constructor() {
@@ -20,9 +23,13 @@ export default class MarioGame extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON('objects', 'assets/map1-1.json');
-    this.load.image('tiles', '../assets/items2.png');
-    this.load.spritesheet('mario', 'assets/marioSmall.png', 34, 34, 7);
+    this.load.tilemapTiledJSON('map', levelMap);
+    this.load.image('tiles', tileItems);
+    const spritesheetConfig = {
+      frameWidth: 34,
+      frameHeight: 34
+    };
+    this.load.spritesheet('mario', marioSmall, spritesheetConfig);
   }
 
   create() {
@@ -30,21 +37,22 @@ export default class MarioGame extends Phaser.Scene {
     // this.physics.startSystem(Phaser.Physics.ARCADE);
     // this.stage.backgroundColor = '#5C94FC';
 
-    this.map = this.make.tilemap({ key: 'objects' });
+    this.map = this.make.tilemap({ key: 'map' });
+    console.log(this.map);
     const tiles = this.map.addTilesetImage('items', 'tiles');
-    this.layer = this.map.createStaticLayer('Capa de Patrones 1', tiles);
+    this.layer = this.map.createStaticLayer('Capa de Patrones 1', tiles, 0, 0);
     // this.mapLayerGround = this.map.createStaticLayer('moss-rock', tiles, 0, 0);
 
-    this.layer.resizeWorld();
+    // this.layer.resizeWorld();
     this.layer.wrap = true;
 
-    this.layer.setCollisionBetween(14, 16);
-    this.layer.setCollisionBetween(21, 22);
-    this.layer.setCollisionBetween(27, 28);
-    this.layer.setCollisionByIndex(10);
-    this.layer.setCollisionByIndex(13);
-    this.layer.setCollisionByIndex(17);
-    this.layer.setCollisionByIndex(40);
+    // this.layer.setCollisionBetween(14, 16);
+    // this.layer.setCollisionBetween(21, 22);
+    // this.layer.setCollisionBetween(27, 28);
+    // this.layer.setCollisionByIndex(10);
+    // this.layer.setCollisionByIndex(13);
+    // this.layer.setCollisionByIndex(17);
+    // this.layer.setCollisionByIndex(40);
 
     this.physics.add.collider(this.mario, this.layer);
 
