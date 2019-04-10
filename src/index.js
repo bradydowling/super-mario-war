@@ -3,12 +3,8 @@ import './font-loader';
 
 import Phaser from 'phaser';
 
-import LightraysPlugin from '../src/plugins/lightrays/index.js';
 import constants from './config/constants';
-import CustomPipeline from './rendering-pipelines/CustomPipeline';
 import MarioScene from './scenes/mario';
-import GameScene from './scenes/game';
-import StartScene from './scenes/start';
 
 window.Phaser = Phaser;
 
@@ -16,33 +12,16 @@ const config = {
   type: Phaser.AUTO,
   width: constants.WIDTH,
   height: constants.HEIGHT,
-  plugins: {
-    scene: [
-      {
-        key: 'LightraysPlugin',
-        plugin: LightraysPlugin,
-        mapping: 'lightrays'
-      }
-    ]
-  },
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 400 },
+      gravity: { y: 700 },
       debug: false
     }
   },
-  scene: [
-    MarioScene
-    //, StartScene, GameScene
-  ],
+  scene: [MarioScene],
   pixelArt: true,
-  antialias: false,
-  callbacks: {
-    postBoot: game => {
-      game.renderer.addPipeline('Custom', new CustomPipeline(game));
-    }
-  }
+  antialias: false
 };
 
 const game = new Phaser.Game(config);

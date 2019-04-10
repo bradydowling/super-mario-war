@@ -2,8 +2,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const { phaser, phaserModule, nodeModules, dist, dev } = require('./paths');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
 
 // https://webpack.js.org/plugins/define-plugin/
 const definePlugin = new webpack.DefinePlugin({
@@ -28,9 +26,6 @@ const browserSyncPlugin = new BrowserSyncPlugin(
   { reload: false } // stop BrowserSync reloading page, leave it to Webpack Dev Server
 );
 
-// https://www.npmjs.com/package/webpack-bundle-analyzer
-const analyzerPlugin = new BundleAnalyzerPlugin();
-
 module.exports = (env, options) => {
   return {
     devServer: {
@@ -48,7 +43,7 @@ module.exports = (env, options) => {
         chunks: 'all' // separates vendor bundles from main
       }
     },
-    plugins: [definePlugin, htmlPlugin, analyzerPlugin, browserSyncPlugin],
+    plugins: [definePlugin, htmlPlugin, browserSyncPlugin],
     module: {
       rules: [
         { // transpile js using babel
@@ -61,12 +56,12 @@ module.exports = (env, options) => {
         { // loader for media files https://webpack.js.org/loaders/file-loader/
           test: /\.(png|jpg|gif|ico|svg|pvr|pkm|static|ogg|mp3|wav)$/,
           exclude: [nodeModules],
-          use: ['file-loader'] 
+          use: ['file-loader']
         },
         { // loader to import files as a string https://webpack.js.org/loaders/raw-loader/
           test: [/\.vert$/, /\.frag$/],
           exclude: [nodeModules],
-          use: 'raw-loader' 
+          use: 'raw-loader'
         },
         { // load css as part of js bundle saving a request
           test: /\.css$/,
