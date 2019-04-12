@@ -52,7 +52,13 @@ export default class MarioGame extends Phaser.Scene {
       repeat: -1
     });
     this.anims.create({
-      key: 'space',
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('mario', { frames: [2, 4, 5] }),
+      frameRate: 60,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'jump',
       frames: this.anims.generateFrameNumbers('mario', { frames: [6] }),
       frameRate: 10,
       repeat: -1
@@ -80,8 +86,7 @@ export default class MarioGame extends Phaser.Scene {
     if (this.cursors.left.isDown) {
       //mario.sprite.body.acceleration.x = -120;
       if (this.mario.direction != 'left') {
-        // FIXME: Need to turn the guy around somehow
-        // this.mario.sprite.scale.x *= -1;
+        this.mario.sprite._scaleX *= -1;
         this.mario.direction = 'left';
       }
       if (
@@ -103,6 +108,36 @@ export default class MarioGame extends Phaser.Scene {
         }
       }
       this.mario.doNothing = false;
+    } else if (this.cursors.right.isDown) {
+      if (this.mario.direction != 'right') {
+        this.mario.sprite._scaleX *= -1;
+        this.mario.direction = 'right';
+      }
+      if (
+        this.mario.sprite.body.velocity.x == 0 ||
+        (this.mario.sprite.anims.currentAnim.key != 'left' &&
+          this.mario.sprite.body.onFloor())
+      ) {
+        this.mario.sprite.anims.play('left', true);
+      }
+      this.mario.sprite.body.velocity.x += 5;
+      if (this.runButton.isDown) {
+        if (this.mario.sprite.body.velocity.x > 200) {
+          this.mario.sprite.body.velocity.x = 200;
+        }
+      } else {
+        if (this.mario.sprite.body.velocity.x > 120) {
+          this.mario.sprite.body.velocity.x = 120;
+        }
+      }
+      this.mario.doNothing = false;
+    }
+    if (this.cursors.up._justDown) {
+      if (this.mario.sprite.body.onFloor()) {
+        this.mario.sprite.body.velocity.y = -310;
+        this.mario.sprite.anims.play('jump', true);
+        this.mario.doNothing = false;
+      }
     }
     if (this.mario.doNothing) {
       if (this.mario.sprite.body.velocity.x > 10) {
@@ -116,7 +151,7 @@ export default class MarioGame extends Phaser.Scene {
         this.mario.sprite.body.velocity.x = 0;
       }
       if (this.mario.sprite.body.onFloor()) {
-        this.mario.sprite.anims.play('wait', 20, true);
+        this.mario.sprite.anims.play('wait', true);
       }
     }
   }
