@@ -34,7 +34,6 @@ export default class MarioGame extends Phaser.Scene {
     this.map = this.make.tilemap({ key: 'map' });
     const tiles = this.map.addTilesetImage('items', 'tiles');
     this.layer = this.map.createStaticLayer('Capa de Patrones 1', tiles, 0, 0);
-
     this.layer.wrap = true;
 
     this.physics.add.collider(this.mario, this.layer);
@@ -79,6 +78,12 @@ export default class MarioGame extends Phaser.Scene {
     this.runButton = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SHIFT
     );
+
+    // TODO: Don't know if these two lines do anything
+    this.physics.add.collider(this.mario.sprite, this.layer);
+    this.layer.setCollisionByProperty({ collides: true });
+
+    this.layer.setCollision([10, 13, 17, 40]);
   }
 
   update() {
@@ -86,7 +91,7 @@ export default class MarioGame extends Phaser.Scene {
     if (this.cursors.left.isDown) {
       //mario.sprite.body.acceleration.x = -120;
       if (this.mario.direction != 'left') {
-        this.mario.sprite._scaleX *= -1;
+        this.mario.sprite.flipX = true;
         this.mario.direction = 'left';
       }
       if (
@@ -110,7 +115,7 @@ export default class MarioGame extends Phaser.Scene {
       this.mario.doNothing = false;
     } else if (this.cursors.right.isDown) {
       if (this.mario.direction != 'right') {
-        this.mario.sprite._scaleX *= -1;
+        this.mario.sprite.flipX = false;
         this.mario.direction = 'right';
       }
       if (
