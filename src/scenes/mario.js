@@ -84,6 +84,9 @@ export default class MarioGame extends Phaser.Scene {
     this.layer.setCollisionByProperty({ collides: true });
 
     this.layer.setCollision([10, 13, 17, 40]);
+    this.layer.setCollisionBetween(14, 16);
+    this.layer.setCollisionBetween(21, 22);
+    this.layer.setCollisionBetween(27, 28);
   }
 
   update() {
@@ -137,7 +140,7 @@ export default class MarioGame extends Phaser.Scene {
       }
       this.mario.doNothing = false;
     }
-    if (this.cursors.up._justDown) {
+    if (Phaser.Input.Keyboard.JustDown(this.jumpButton)) {
       if (this.mario.sprite.body.onFloor()) {
         this.mario.sprite.body.velocity.y = -310;
         this.mario.sprite.anims.play('jump', true);

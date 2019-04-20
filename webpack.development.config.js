@@ -46,24 +46,28 @@ module.exports = (env, options) => {
     plugins: [definePlugin, htmlPlugin, browserSyncPlugin],
     module: {
       rules: [
-        { // transpile js using babel
+        {
+          // transpile js using babel
           test: /\.js$/,
           exclude: [nodeModules],
           use: {
             loader: 'babel-loader'
           }
         },
-        { // loader for media files https://webpack.js.org/loaders/file-loader/
+        {
+          // loader for media files https://webpack.js.org/loaders/file-loader/
           test: /\.(png|jpg|gif|ico|svg|pvr|pkm|static|ogg|mp3|wav)$/,
           exclude: [nodeModules],
           use: ['file-loader']
         },
-        { // loader to import files as a string https://webpack.js.org/loaders/raw-loader/
+        {
+          // loader to import files as a string https://webpack.js.org/loaders/raw-loader/
           test: [/\.vert$/, /\.frag$/],
           exclude: [nodeModules],
           use: 'raw-loader'
         },
-        { // load css as part of js bundle saving a request
+        {
+          // load css as part of js bundle saving a request
           test: /\.css$/,
           use: [
             {
