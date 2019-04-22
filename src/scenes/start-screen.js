@@ -13,14 +13,10 @@ export default class sceneTemplate extends Phaser.Scene {
     this.load.image('background', menu_background);
   }
   create() {
-    this.bg = this.add.image(
-      game.config.width / 2,
-      game.config.height / 2,
-      'background'
-    );
+    this.bg = this.add.image(0, 0, 'background').setOrigin(0, 0);
     this.smw_menu = this.add.image(
       game.config.width / 2,
-      game.config.height / 2,
+      game.config.height / 2 - 100,
       'smw'
     );
   }
