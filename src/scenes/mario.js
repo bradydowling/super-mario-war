@@ -1,6 +1,6 @@
 import Phaser from 'phaser/src/phaser.js';
 import levelMap from '../assets/map1-1.json';
-import tileItems from '../assets/items2.png';
+import tileItems from '../assets/items.png';
 import marioSmall from '../assets/marioSmall.png';
 
 export default class MarioGame extends Phaser.Scene {

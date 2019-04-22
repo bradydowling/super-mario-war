@@ -5,6 +5,7 @@ import Phaser from 'phaser';
 
 import constants from './config/constants';
 import MarioScene from './scenes/mario';
+import StartScreen from './scenes/start-screen';
 
 window.Phaser = Phaser;
 
@@ -19,7 +20,7 @@ const config = {
       debug: false
     }
   },
-  scene: [MarioScene],
+  scene: [StartScreen, MarioScene],
   pixelArt: true,
   antialias: false
 };

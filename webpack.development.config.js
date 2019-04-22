@@ -1,7 +1,10 @@
+const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const { phaser, phaserModule, nodeModules, dist, dev } = require('./paths');
+
+const nodeModules = path.join(__dirname, './node_modules/');
+const dist = path.join(__dirname, './dist');
 
 // https://webpack.js.org/plugins/define-plugin/
 const definePlugin = new webpack.DefinePlugin({

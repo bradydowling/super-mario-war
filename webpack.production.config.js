@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { phaser, phaserModule, nodeModules, dist, ghpages } = require('./paths');
+const { nodeModules, dist, ghpages } = require('./config/paths');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const definePlugin = new webpack.DefinePlugin({
