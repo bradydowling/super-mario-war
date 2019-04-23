@@ -4,7 +4,7 @@ import './font-loader';
 import Phaser from 'phaser';
 
 import constants from './config/constants';
-import MarioScene from './scenes/mario';
+import Gameplay from './scenes/gameplay';
 import StartScreen from './scenes/start-screen';
 
 window.Phaser = Phaser;
@@ -20,7 +20,7 @@ const config = {
       debug: false
     }
   },
-  scene: [StartScreen, MarioScene],
+  scene: [StartScreen, Gameplay],
   pixelArt: true,
   antialias: false
 };

@@ -1,11 +1,10 @@
 import Phaser from 'phaser/src/phaser.js';
 import levelMap from '../assets/map1-1.json';
 import tileItems from '../assets/items.png';
-import marioSmall from '../assets/marioSmall.png';
 
-export default class MarioGame extends Phaser.Scene {
+export default class Gameplay extends Phaser.Scene {
   constructor() {
-    super({ key: 'Mario' });
+    super({ key: 'Gameplay' });
 
     this.map;
     this.layer;
@@ -21,14 +20,14 @@ export default class MarioGame extends Phaser.Scene {
   }
 
   preload() {
-    console.log(this.registry.get('player1'));
+    const p1image = require(`../assets/${this.registry.get('player1img')}`);
     this.load.tilemapTiledJSON('map', levelMap);
     this.load.image('tiles', tileItems);
     const spritesheetConfig = {
-      frameWidth: 34,
-      frameHeight: 34
+      frameWidth: 32,
+      frameHeight: 32
     };
-    this.load.spritesheet('mario', marioSmall, spritesheetConfig);
+    this.load.spritesheet('player1', p1image, spritesheetConfig);
   }
 
   create() {
@@ -39,33 +38,33 @@ export default class MarioGame extends Phaser.Scene {
 
     this.physics.add.collider(this.player1, this.layer);
 
-    this.player1.sprite = this.physics.add.sprite(50, 50, 'mario');
-    this.player1.sprite.setScale(0.47);
+    this.player1.sprite = this.physics.add.sprite(50, 50, 'player1');
+    this.player1.sprite.setScale(1);
     this.player1.sprite.setOrigin(0.5, 0.5);
     this.player1.sprite.setBounce(0);
     this.player1.sprite.setCollideWorldBounds(true);
 
     this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers('mario', { frames: [2, 4, 5] }),
+      frames: this.anims.generateFrameNumbers('player1', { frames: [0, 1] }),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: 'right',
-      frames: this.anims.generateFrameNumbers('mario', { frames: [2, 4, 5] }),
+      frames: this.anims.generateFrameNumbers('player1', { frames: [0, 1] }),
       frameRate: 60,
       repeat: -1
     });
     this.anims.create({
       key: 'jump',
-      frames: this.anims.generateFrameNumbers('mario', { frames: [6] }),
+      frames: this.anims.generateFrameNumbers('player1', { frames: [2] }),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: 'wait',
-      frames: this.anims.generateFrameNumbers('mario', { frames: [0] }),
+      frames: this.anims.generateFrameNumbers('player1', { frames: [3] }),
       frameRate: 10,
       repeat: -1
     });
@@ -93,7 +92,6 @@ export default class MarioGame extends Phaser.Scene {
   update() {
     this.player1.doNothing = true;
     if (this.cursors.left.isDown) {
-      //mario.sprite.body.acceleration.x = -120;
       if (this.player1.direction != 'left') {
         this.player1.sprite.flipX = true;
         this.player1.direction = 'left';
@@ -150,13 +148,10 @@ export default class MarioGame extends Phaser.Scene {
     }
     if (this.player1.doNothing) {
       if (this.player1.sprite.body.velocity.x > 10) {
-        //mario.sprite.body.acceleration.x = 10;
         this.player1.sprite.body.velocity.x -= 10;
       } else if (this.player1.sprite.body.velocity.x < -10) {
-        //mario.sprite.body.acceleration.x = -10;
         this.player1.sprite.body.velocity.x += 10;
       } else {
-        //mario.sprite.body.acceleration.x = 0;
         this.player1.sprite.body.velocity.x = 0;
       }
       if (this.player1.sprite.body.onFloor()) {
