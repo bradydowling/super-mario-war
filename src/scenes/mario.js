@@ -13,7 +13,7 @@ export default class MarioGame extends Phaser.Scene {
     this.jumpButton;
     this.runButton;
 
-    this.mario = {
+    this.player1 = {
       sprite: undefined,
       direction: 'right',
       doNothing: true
@@ -21,6 +21,7 @@ export default class MarioGame extends Phaser.Scene {
   }
 
   preload() {
+    console.log(this.registry.get('player1'));
     this.load.tilemapTiledJSON('map', levelMap);
     this.load.image('tiles', tileItems);
     const spritesheetConfig = {
@@ -36,13 +37,13 @@ export default class MarioGame extends Phaser.Scene {
     this.layer = this.map.createStaticLayer('Capa de Patrones 1', tiles, 0, 0);
     this.layer.wrap = true;
 
-    this.physics.add.collider(this.mario, this.layer);
+    this.physics.add.collider(this.player1, this.layer);
 
-    this.mario.sprite = this.physics.add.sprite(50, 50, 'mario');
-    this.mario.sprite.setScale(0.47);
-    this.mario.sprite.setOrigin(0.5, 0.5);
-    this.mario.sprite.setBounce(0);
-    this.mario.sprite.setCollideWorldBounds(true);
+    this.player1.sprite = this.physics.add.sprite(50, 50, 'mario');
+    this.player1.sprite.setScale(0.47);
+    this.player1.sprite.setOrigin(0.5, 0.5);
+    this.player1.sprite.setBounce(0);
+    this.player1.sprite.setCollideWorldBounds(true);
 
     this.anims.create({
       key: 'left',
@@ -69,7 +70,7 @@ export default class MarioGame extends Phaser.Scene {
       repeat: -1
     });
 
-    this.mario.sprite.body.fixedRotation = true;
+    this.player1.sprite.body.fixedRotation = true;
 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.jumpButton = this.input.keyboard.addKey(
@@ -80,7 +81,7 @@ export default class MarioGame extends Phaser.Scene {
     );
 
     // TODO: Don't know if these two lines do anything
-    this.physics.add.collider(this.mario.sprite, this.layer);
+    this.physics.add.collider(this.player1.sprite, this.layer);
     this.layer.setCollisionByProperty({ collides: true });
 
     this.layer.setCollision([10, 13, 17, 40]);
@@ -90,76 +91,76 @@ export default class MarioGame extends Phaser.Scene {
   }
 
   update() {
-    this.mario.doNothing = true;
+    this.player1.doNothing = true;
     if (this.cursors.left.isDown) {
       //mario.sprite.body.acceleration.x = -120;
-      if (this.mario.direction != 'left') {
-        this.mario.sprite.flipX = true;
-        this.mario.direction = 'left';
+      if (this.player1.direction != 'left') {
+        this.player1.sprite.flipX = true;
+        this.player1.direction = 'left';
       }
       if (
-        this.mario.sprite.body.velocity.x == 0 ||
-        (this.mario.sprite.anims.currentAnim.key != 'left' &&
-          this.mario.sprite.body.onFloor())
+        this.player1.sprite.body.velocity.x == 0 ||
+        (this.player1.sprite.anims.currentAnim.key != 'left' &&
+          this.player1.sprite.body.onFloor())
       ) {
-        this.mario.sprite.anims.play('left', true);
+        this.player1.sprite.anims.play('left', true);
       }
 
-      this.mario.sprite.body.velocity.x -= 5;
+      this.player1.sprite.body.velocity.x -= 5;
       if (this.runButton.isDown) {
-        if (this.mario.sprite.body.velocity.x < -200) {
-          this.mario.sprite.body.velocity.x = -200;
+        if (this.player1.sprite.body.velocity.x < -200) {
+          this.player1.sprite.body.velocity.x = -200;
         }
       } else {
-        if (this.mario.sprite.body.velocity.x < -120) {
-          this.mario.sprite.body.velocity.x = -120;
+        if (this.player1.sprite.body.velocity.x < -120) {
+          this.player1.sprite.body.velocity.x = -120;
         }
       }
-      this.mario.doNothing = false;
+      this.player1.doNothing = false;
     } else if (this.cursors.right.isDown) {
-      if (this.mario.direction != 'right') {
-        this.mario.sprite.flipX = false;
-        this.mario.direction = 'right';
+      if (this.player1.direction != 'right') {
+        this.player1.sprite.flipX = false;
+        this.player1.direction = 'right';
       }
       if (
-        this.mario.sprite.body.velocity.x == 0 ||
-        (this.mario.sprite.anims.currentAnim.key != 'left' &&
-          this.mario.sprite.body.onFloor())
+        this.player1.sprite.body.velocity.x == 0 ||
+        (this.player1.sprite.anims.currentAnim.key != 'left' &&
+          this.player1.sprite.body.onFloor())
       ) {
-        this.mario.sprite.anims.play('left', true);
+        this.player1.sprite.anims.play('left', true);
       }
-      this.mario.sprite.body.velocity.x += 5;
+      this.player1.sprite.body.velocity.x += 5;
       if (this.runButton.isDown) {
-        if (this.mario.sprite.body.velocity.x > 200) {
-          this.mario.sprite.body.velocity.x = 200;
+        if (this.player1.sprite.body.velocity.x > 200) {
+          this.player1.sprite.body.velocity.x = 200;
         }
       } else {
-        if (this.mario.sprite.body.velocity.x > 120) {
-          this.mario.sprite.body.velocity.x = 120;
+        if (this.player1.sprite.body.velocity.x > 120) {
+          this.player1.sprite.body.velocity.x = 120;
         }
       }
-      this.mario.doNothing = false;
+      this.player1.doNothing = false;
     }
     if (Phaser.Input.Keyboard.JustDown(this.jumpButton)) {
-      if (this.mario.sprite.body.onFloor()) {
-        this.mario.sprite.body.velocity.y = -310;
-        this.mario.sprite.anims.play('jump', true);
-        this.mario.doNothing = false;
+      if (this.player1.sprite.body.onFloor()) {
+        this.player1.sprite.body.velocity.y = -310;
+        this.player1.sprite.anims.play('jump', true);
+        this.player1.doNothing = false;
       }
     }
-    if (this.mario.doNothing) {
-      if (this.mario.sprite.body.velocity.x > 10) {
+    if (this.player1.doNothing) {
+      if (this.player1.sprite.body.velocity.x > 10) {
         //mario.sprite.body.acceleration.x = 10;
-        this.mario.sprite.body.velocity.x -= 10;
-      } else if (this.mario.sprite.body.velocity.x < -10) {
+        this.player1.sprite.body.velocity.x -= 10;
+      } else if (this.player1.sprite.body.velocity.x < -10) {
         //mario.sprite.body.acceleration.x = -10;
-        this.mario.sprite.body.velocity.x += 10;
+        this.player1.sprite.body.velocity.x += 10;
       } else {
         //mario.sprite.body.acceleration.x = 0;
-        this.mario.sprite.body.velocity.x = 0;
+        this.player1.sprite.body.velocity.x = 0;
       }
-      if (this.mario.sprite.body.onFloor()) {
-        this.mario.sprite.anims.play('wait', true);
+      if (this.player1.sprite.body.onFloor()) {
+        this.player1.sprite.anims.play('wait', true);
       }
     }
   }

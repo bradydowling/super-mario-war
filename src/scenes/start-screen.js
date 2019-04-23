@@ -7,6 +7,8 @@ import menu_background from '../assets/menu_background.png';
 export default class sceneTemplate extends Phaser.Scene {
   constructor() {
     super({ key: 'Start' });
+
+    this.startButton;
   }
   preload() {
     this.load.image('smw', menu_smw);
@@ -19,7 +21,15 @@ export default class sceneTemplate extends Phaser.Scene {
       game.config.height / 2 - 140,
       'smw'
     );
+    this.startButton = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ENTER
+    );
   }
-  update() {}
+  update() {
+    if (Phaser.Input.Keyboard.JustDown(this.startButton)) {
+      this.registry.set('player1', 'marioSmall');
+      this.scene.start('Mario');
+    }
+  }
   render() {}
 }
