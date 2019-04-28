@@ -1,6 +1,7 @@
 import Phaser from 'phaser/src/phaser.js';
 import levelMap from '../assets/map1-1.json';
 import tileItems from '../assets/items.png';
+import gameplay_music from '../assets/sounds/smb3level1.ogg';
 
 export default class Gameplay extends Phaser.Scene {
   constructor() {
@@ -11,12 +12,21 @@ export default class Gameplay extends Phaser.Scene {
     this.cursors;
     this.jumpButton;
     this.runButton;
+    this.movement = {
+      runDeceleration: 15,
+      runAcceleration: 5,
+      runSpeed: 120,
+      sprintSpeed: 200,
+      jump: 310
+    };
 
     this.player1 = {
       sprite: undefined,
       direction: 'right',
       doNothing: true
     };
+
+    this.music;
   }
 
   preload() {
@@ -28,6 +38,7 @@ export default class Gameplay extends Phaser.Scene {
       frameHeight: 32
     };
     this.load.spritesheet('player1', p1image, spritesheetConfig);
+    this.load.audio('gameplay_music', gameplay_music);
   }
 
   create() {
@@ -87,6 +98,9 @@ export default class Gameplay extends Phaser.Scene {
     this.layer.setCollisionBetween(14, 16);
     this.layer.setCollisionBetween(21, 22);
     this.layer.setCollisionBetween(27, 28);
+
+    this.music = this.sound.add('gameplay_music');
+    this.music.play('', 0, 1, true);
   }
 
   update() {
@@ -104,14 +118,14 @@ export default class Gameplay extends Phaser.Scene {
         this.player1.sprite.anims.play('left', true);
       }
 
-      this.player1.sprite.body.velocity.x -= 5;
+      this.player1.sprite.body.velocity.x -= this.movement.runAcceleration;
       if (this.runButton.isDown) {
-        if (this.player1.sprite.body.velocity.x < -200) {
-          this.player1.sprite.body.velocity.x = -200;
+        if (this.player1.sprite.body.velocity.x < -this.movement.sprintSpeed) {
+          this.player1.sprite.body.velocity.x = -this.movement.sprintSpeed;
         }
       } else {
-        if (this.player1.sprite.body.velocity.x < -120) {
-          this.player1.sprite.body.velocity.x = -120;
+        if (this.player1.sprite.body.velocity.x < -this.movement.runSpeed) {
+          this.player1.sprite.body.velocity.x = -this.movement.runSpeed;
         }
       }
       this.player1.doNothing = false;
@@ -127,30 +141,32 @@ export default class Gameplay extends Phaser.Scene {
       ) {
         this.player1.sprite.anims.play('left', true);
       }
-      this.player1.sprite.body.velocity.x += 5;
+      this.player1.sprite.body.velocity.x += this.movement.runAcceleration;
       if (this.runButton.isDown) {
-        if (this.player1.sprite.body.velocity.x > 200) {
-          this.player1.sprite.body.velocity.x = 200;
+        if (this.player1.sprite.body.velocity.x > this.movement.sprintSpeed) {
+          this.player1.sprite.body.velocity.x = this.movement.sprintSpeed;
         }
       } else {
-        if (this.player1.sprite.body.velocity.x > 120) {
-          this.player1.sprite.body.velocity.x = 120;
+        if (this.player1.sprite.body.velocity.x > this.movement.runSpeed) {
+          this.player1.sprite.body.velocity.x = this.movement.runSpeed;
         }
       }
       this.player1.doNothing = false;
     }
     if (Phaser.Input.Keyboard.JustDown(this.jumpButton)) {
       if (this.player1.sprite.body.onFloor()) {
-        this.player1.sprite.body.velocity.y = -310;
+        this.player1.sprite.body.velocity.y = -this.movement.jump;
         this.player1.sprite.anims.play('jump', true);
         this.player1.doNothing = false;
       }
     }
     if (this.player1.doNothing) {
-      if (this.player1.sprite.body.velocity.x > 10) {
-        this.player1.sprite.body.velocity.x -= 10;
-      } else if (this.player1.sprite.body.velocity.x < -10) {
-        this.player1.sprite.body.velocity.x += 10;
+      if (this.player1.sprite.body.velocity.x > this.movement.runDeceleration) {
+        this.player1.sprite.body.velocity.x -= this.movement.runDeceleration;
+      } else if (
+        this.player1.sprite.body.velocity.x < -this.movement.runDeceleration
+      ) {
+        this.player1.sprite.body.velocity.x += this.movement.runDeceleration;
       } else {
         this.player1.sprite.body.velocity.x = 0;
       }
