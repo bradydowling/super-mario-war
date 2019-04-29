@@ -2,6 +2,7 @@ import Phaser from 'phaser/src/phaser.js';
 import levelMap from '../assets/map1-1.json';
 import tileItems from '../assets/items.png';
 import gameplay_music from '../assets/sounds/smb3level1.ogg';
+import jump_sound from '../assets/sounds/sfx/jump.wav';
 
 export default class Gameplay extends Phaser.Scene {
   constructor() {
@@ -27,6 +28,7 @@ export default class Gameplay extends Phaser.Scene {
     };
 
     this.music;
+    this.soundEffects = {};
   }
 
   preload() {
@@ -38,7 +40,9 @@ export default class Gameplay extends Phaser.Scene {
       frameHeight: 32
     };
     this.load.spritesheet('player1', p1image, spritesheetConfig);
+
     this.load.audio('gameplay_music', gameplay_music);
+    this.load.audio('jump_sound', jump_sound);
   }
 
   create() {
@@ -101,6 +105,8 @@ export default class Gameplay extends Phaser.Scene {
 
     this.music = this.sound.add('gameplay_music');
     this.music.play('', 0, 1, true);
+
+    this.soundEffects.jump = this.sound.add('jump_sound');
   }
 
   update() {
@@ -157,6 +163,7 @@ export default class Gameplay extends Phaser.Scene {
       if (this.player1.sprite.body.onFloor()) {
         this.player1.sprite.body.velocity.y = -this.movement.jump;
         this.player1.sprite.anims.play('jump', true);
+        this.soundEffects.jump.play('', 0, 1, false);
         this.player1.doNothing = false;
       }
     }
