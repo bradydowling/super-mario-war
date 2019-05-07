@@ -57,7 +57,7 @@ export default class Gameplay extends Phaser.Scene {
     this.player1.sprite.setScale(1);
     this.player1.sprite.setOrigin(0.5, 0.5);
     this.player1.sprite.setBounce(0);
-    this.player1.sprite.setCollideWorldBounds(true);
+    // this.player1.sprite.setCollideWorldBounds(true);
 
     this.anims.create({
       key: 'left',
@@ -180,6 +180,14 @@ export default class Gameplay extends Phaser.Scene {
       if (this.player1.sprite.body.onFloor()) {
         this.player1.sprite.anims.play('wait', true);
       }
+    }
+
+    // Loop players from the left side of the screen and vice versa
+    if (this.player1.sprite.x < 0) {
+      this.player1.sprite.x = 640;
+    }
+    if (this.player1.sprite.x > 640) {
+      this.player1.sprite.x = 0;
     }
   }
 }

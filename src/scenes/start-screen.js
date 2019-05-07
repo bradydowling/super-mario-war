@@ -1,5 +1,3 @@
-import { HEIGHT, SCALE, WIDTH } from '../config/constants';
-
 import Phaser from 'phaser/src/phaser.js';
 import menu_smw from '../assets/menu_smw.png';
 import menu_background from '../assets/menu_background.png';
