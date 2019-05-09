@@ -79,7 +79,7 @@ export default class Gameplay extends Phaser.Scene {
     });
     this.anims.create({
       key: 'wait',
-      frames: this.anims.generateFrameNumbers('player1', { frames: [3] }),
+      frames: this.anims.generateFrameNumbers('player1', { frames: [0] }),
       frameRate: 10,
       repeat: -1
     });
