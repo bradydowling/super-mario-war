@@ -32,7 +32,7 @@ export default class sceneTemplate extends Phaser.Scene {
   }
   update() {
     if (Phaser.Input.Keyboard.JustDown(this.startButton)) {
-      this.registry.set('player1img', 'sprites/players/SuperWario_Bowser.png');
+      this.registry.set('player1img', 'sprites/players/Bowser.png');
       this.music.stop();
       this.scene.start('Gameplay');
     }
