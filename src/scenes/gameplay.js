@@ -3,6 +3,7 @@ import levelMap from '../assets/map1-1.json';
 import tileItems from '../assets/items.png';
 import gameplay_music from '../assets/sounds/smb3level1.ogg';
 import jump_sound from '../assets/sounds/sfx/jump.wav';
+import start_sound from '../assets/sounds/sfx/announcer/enter-stage.wav';
 
 export default class Gameplay extends Phaser.Scene {
   constructor() {
@@ -43,6 +44,7 @@ export default class Gameplay extends Phaser.Scene {
 
     this.load.audio('gameplay_music', gameplay_music);
     this.load.audio('jump_sound', jump_sound);
+    this.load.audio('start_sound', start_sound);
   }
 
   create() {
@@ -103,10 +105,22 @@ export default class Gameplay extends Phaser.Scene {
     this.layer.setCollisionBetween(21, 22);
     this.layer.setCollisionBetween(27, 28);
 
-    this.music = this.sound.add('gameplay_music');
-    this.music.play('', 0, 1, true);
+    const music_config = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    };
+    this.music = this.sound.add('gameplay_music', music_config);
+    this.music.play();
 
     this.soundEffects.jump = this.sound.add('jump_sound');
+    this.soundEffects.start_sound = this.sound.add('start_sound');
+
+    this.soundEffects.start_sound.play();
   }
 
   update() {
