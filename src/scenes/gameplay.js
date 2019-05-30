@@ -96,10 +96,12 @@ export default class Gameplay extends Phaser.Scene {
       Phaser.Input.Keyboard.KeyCodes.SHIFT
     );
 
-    // TODO: Don't know if these two lines do anything
+    // This makes it so I can enable collisions with player1 and this layer in the coming lines
     this.physics.add.collider(this.player1.sprite, this.layer);
+    // This enables collisions on Tiled layers that have the 'collides' property set to true
     this.layer.setCollisionByProperty({ collides: true });
 
+    // This sets specific collision points in this layer
     this.layer.setCollision([10, 13, 17, 40]);
     this.layer.setCollisionBetween(14, 16);
     this.layer.setCollisionBetween(21, 22);

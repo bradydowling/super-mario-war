@@ -11,6 +11,30 @@ export default class sceneTemplate extends Phaser.Scene {
     this.startButton;
     this.music;
     this.menuFont;
+    this.currentCharacterIndex = 0;
+    this.characters = [
+      {
+        name: 'Boo',
+        filename: 'Boo.png'
+      },
+      {
+        name: 'Bowser',
+        filename: 'Bowser.png'
+      },
+      {
+        name: 'BubBob',
+        filename: 'BubBob.png'
+      },
+      {
+        name: 'DonkeyKong',
+        filename: 'DonkeyKong.png'
+      },
+      {
+        name: 'Mario',
+        filename: 'Mario.png'
+      }
+    ];
+    this.cursors;
   }
 
   preload() {
@@ -44,11 +68,12 @@ export default class sceneTemplate extends Phaser.Scene {
       y: 200
     };
 
+    const currentCharacter = this.characters[this.currentCharacterIndex].name;
     this.menuFont = this.add.bitmapText(
       textPosition.x,
       textPosition.y,
       key,
-      'TestinG THINGS with CAPS'
+      `< Select your character: ${currentCharacter}>`
     );
 
     this.menuFont.setScale(1);
@@ -66,6 +91,8 @@ export default class sceneTemplate extends Phaser.Scene {
     this.music = this.sound.add('menu_music');
     this.music.play('', 0, 1, true);
 
+    this.cursors = this.input.keyboard.createCursorKeys();
+
     this.startButton = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.ENTER
     );
@@ -77,9 +104,32 @@ export default class sceneTemplate extends Phaser.Scene {
 
   update() {
     if (Phaser.Input.Keyboard.JustDown(this.startButton)) {
-      this.registry.set('player1img', 'sprites/players/Bowser.png');
+      const filename = this.characters[this.currentCharacterIndex].filename;
+      this.registry.set('player1img', `sprites/players/${filename}`);
       this.music.stop();
       this.scene.start('Gameplay');
+      return;
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) {
+      console.log('change the character');
+      const lastCharacterIndex = this.characters.length - 1;
+      if (this.currentCharacterIndex >= lastCharacterIndex) {
+        return console.log('last character');
+      }
+      this.currentCharacterIndex++;
+      const currentCharacter = this.characters[this.currentCharacterIndex].name;
+      this.setMenuText(`< Select your character: ${currentCharacter}>`);
+      return;
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+      console.log('change the character');
+      if (this.currentCharacterIndex <= 0) {
+        return console.log('first character');
+      }
+      this.currentCharacterIndex--;
+      const currentCharacter = this.characters[this.currentCharacterIndex].name;
+      this.setMenuText(`< Select your character: ${currentCharacter}>`);
+      return;
     }
   }
   render() {}
