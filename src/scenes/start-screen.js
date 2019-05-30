@@ -27,11 +27,11 @@ export default class sceneTemplate extends Phaser.Scene {
   setupFont(key) {
     const config = {
       image: key,
-      width: 31,
-      height: 25,
+      width: 16,
+      height: 19,
       chars: Phaser.GameObjects.RetroFont.TEXT_SET1,
-      charsPerRow: 11,
-      spacing: { x: 1, y: 1 }
+      charsPerRow: 10,
+      spacing: { x: 0, y: 0 }
     };
 
     this.cache.bitmapFont.add(
@@ -39,9 +39,20 @@ export default class sceneTemplate extends Phaser.Scene {
       Phaser.GameObjects.RetroFont.Parse(this, config)
     );
 
-    this.menuFont = this.add.bitmapText(0, 200, key, 'PHASER 3');
+    const textPosition = {
+      x: 100,
+      y: 200
+    };
 
-    this.menuFont.setScale(3);
+    this.menuFont = this.add.bitmapText(
+      textPosition.x,
+      textPosition.y,
+      key,
+      'TestinG THINGS with CAPS'
+    );
+
+    this.menuFont.setScale(1);
+    this.menuFont.setLetterSpacing(-1);
   }
 
   create() {
@@ -61,7 +72,7 @@ export default class sceneTemplate extends Phaser.Scene {
 
     // Move this stuff elsewhere
     this.setupFont('menu_font_large');
-    this.setMenuText('Some new stuff');
+    // this.setMenuText('I kinda know how to use GIMP');
   }
 
   update() {
