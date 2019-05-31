@@ -19,7 +19,7 @@ export default class Gameplay extends Phaser.Scene {
       runAcceleration: 5,
       runSpeed: 120,
       sprintSpeed: 200,
-      jump: 310
+      jump: 500
     };
 
     this.player1 = {
