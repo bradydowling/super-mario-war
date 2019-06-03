@@ -1,6 +1,7 @@
 import Phaser from 'phaser/src/phaser.js';
-import levelMap from '../assets/map1-1.json';
-import tileItems from '../assets/items.png';
+import levelMap from '../assets/levels/map2.json';
+import tiles_classic from '../assets/levels/tilesets/classic-large.png';
+import tiles_smb1 from '../assets/levels/tilesets/smb1-large.png';
 import gameplay_music from '../assets/sounds/smb3level1.ogg';
 import jump_sound from '../assets/sounds/sfx/jump.wav';
 import start_sound from '../assets/sounds/sfx/announcer/enter-stage.wav';
@@ -10,7 +11,8 @@ export default class Gameplay extends Phaser.Scene {
     super({ key: 'Gameplay' });
 
     this.map;
-    this.layer;
+    this.visualLayer;
+    this.collidesLayer;
     this.cursors;
     this.jumpButton;
     this.runButton;
@@ -35,7 +37,7 @@ export default class Gameplay extends Phaser.Scene {
   preload() {
     const p1image = require(`../assets/${this.registry.get('player1img')}`);
     this.load.tilemapTiledJSON('map', levelMap);
-    this.load.image('tiles', tileItems);
+    this.load.image('tiles', tiles_smb1);
     const spritesheetConfig = {
       frameWidth: 32,
       frameHeight: 32
@@ -49,18 +51,22 @@ export default class Gameplay extends Phaser.Scene {
 
   create() {
     this.map = this.make.tilemap({ key: 'map' });
-    const tiles = this.map.addTilesetImage('items', 'tiles');
-    this.layer = this.map.createStaticLayer('Capa de Patrones 1', tiles, 0, 0);
-    this.layer.wrap = true;
-
-    this.physics.add.collider(this.player1, this.layer);
+    const tiles = this.map.addTilesetImage('smb1-large', 'tiles');
+    this.visualLayer = this.map.createStaticLayer('TileLayer', tiles, 0, 0);
+    this.collidesLayer = this.map.createStaticLayer(
+      'CollidesLayer',
+      tiles,
+      0,
+      0
+    );
+    this.visualLayer.wrap = true;
 
     this.player1.sprite = this.physics.add.sprite(50, 50, 'player1');
     this.player1.sprite.setScale(1);
     this.player1.sprite.setOrigin(0.5, 0.5);
     this.player1.sprite.setBounce(0);
-    // this.player1.sprite.setCollideWorldBounds(true);
 
+    this.physics.add.collider(this.player1.sprite, this.collidesLayer);
     this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('player1', { frames: [0, 1] }),
@@ -97,15 +103,16 @@ export default class Gameplay extends Phaser.Scene {
     );
 
     // This makes it so I can enable collisions with player1 and this layer in the coming lines
-    this.physics.add.collider(this.player1.sprite, this.layer);
+    this.physics.add.collider(this.player1.sprite, this.collidesLayer);
     // This enables collisions on Tiled layers that have the 'collides' property set to true
-    this.layer.setCollisionByProperty({ collides: true });
+    this.collidesLayer.setCollisionByProperty({ collides: true });
 
-    // This sets specific collision points in this layer
-    this.layer.setCollision([10, 13, 17, 40]);
-    this.layer.setCollisionBetween(14, 16);
-    this.layer.setCollisionBetween(21, 22);
-    this.layer.setCollisionBetween(27, 28);
+    const debugGraphics = this.add.graphics().setAlpha(0.75);
+    this.collidesLayer.renderDebug(debugGraphics, {
+      tileColor: null, // Color of non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+    });
 
     const music_config = {
       mute: false,
