@@ -5,6 +5,7 @@ import tiles_smb1 from '../assets/levels/tilesets/smb1-large.png';
 import gameplay_music from '../assets/sounds/smb3level1.ogg';
 import jump_sound from '../assets/sounds/sfx/jump.wav';
 import start_sound from '../assets/sounds/sfx/announcer/enter-stage.wav';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 export default class Gameplay extends Phaser.Scene {
   constructor() {
