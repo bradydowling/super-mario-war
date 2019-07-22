@@ -1,3 +1,8 @@
+### TODO
+- Add gamepad support
+- Add platform jump through
+- Fix text (using existing pixel font)
+
 # Create-Phaser-App
 
 ## About Create Phaser App
