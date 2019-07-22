@@ -5,7 +5,6 @@ import tiles_smb1 from '../assets/levels/tilesets/smb1-large.png';
 import gameplay_music from '../assets/sounds/smb3level1.ogg';
 import jump_sound from '../assets/sounds/sfx/jump.wav';
 import start_sound from '../assets/sounds/sfx/announcer/enter-stage.wav';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 export default class Gameplay extends Phaser.Scene {
   constructor() {
@@ -107,13 +106,6 @@ export default class Gameplay extends Phaser.Scene {
     this.physics.add.collider(this.player1.sprite, this.collidesLayer);
     // This enables collisions on Tiled layers that have the 'collides' property set to true
     this.collidesLayer.setCollisionByProperty({ collides: true });
-
-    const debugGraphics = this.add.graphics().setAlpha(0.75);
-    this.collidesLayer.renderDebug(debugGraphics, {
-      tileColor: null, // Color of non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-    });
 
     const music_config = {
       mute: false,
