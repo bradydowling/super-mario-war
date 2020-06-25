@@ -15,7 +15,6 @@
     "test": "yarn test_base",
     "coverage": "yarn test_base --coverage",
     "pretty": "npx eslint --fix \"src/**/*.js\"",
-    "precommit": "yarn pretty",
     "process-levels": "node ./level-processor/index.js"
   },
   "keywords": [
@@ -110,5 +109,10 @@
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.10",
     "yarn": "1.12.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn pretty"
+    }
   }
 }
